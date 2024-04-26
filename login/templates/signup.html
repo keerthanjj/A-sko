@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A_SKO Ecommerce Signup</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e0ffff; /* Light blue background */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .signup-form {
+    background-color: #fff; /* White background for form */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    text-align: center;
+  }
+
+  h1, h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+
+  input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  .signup-button {
+    background-color: #0095ff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+  }
+
+  .signup-button:hover {
+    background-color: #007bff;
+  }
+
+  .password-strength {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+  }
+
+  .weak {
+    color: red;
+  }
+
+  .medium {
+    color: orange;
+  }
+
+  .strong {
+    color: green;
+  }
+</style>
+</head>
+<body>
+<div class="signup-form">
+  <h1>A_SKO Ecommerce</h1>
+  <h2>Sign Up</h2>
+  <form id="signupForm" action="/signup" method="post">
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="email" name="email" placeholder="Email Address" required>
+    <input type="password" id="password" name="password" placeholder="Password" required>
+    <input type="password" id="confirmPassword" name="confirm_password" placeholder="Confirm Password" required>
+    <div class="password-strength" id="passwordStrength"></div>
+    <input type="text" name="city" placeholder="City">
+    <button type="submit" class="signup-button" id="signupButton" disabled>Sign Up</button>
+  </form>
+</div>
+
+<script>
+  // Function to check if passwords match and enable/disable signup button
+  function checkPasswords() {
+    var password = document.getElementById('password').value;
+    var confirmPassword = document.getElementById('confirmPassword').value;
+    var signupButton = document.getElementById('signupButton');
+
+    if (password === confirmPassword && password.length > 0) {
+      signupButton.disabled = false;
+    } else {
+      signupButton.disabled = true;
+    }
+  }
+
+  // Add event listeners to password and confirm password fields
+  document.getElementById('password').addEventListener('input', function() {
+    checkPasswords();
+  });
+
+  document.getElementById('confirmPassword').addEventListener('input', function() {
+    checkPasswords();
+  });
+
+  // Password strength validation
+  document.getElementById('password').addEventListener('input', function() {
+    var password = document.getElementById('password').value;
+    var strength = 0;
+
+    // Check length
+    if (password.length >= 8) {
+      strength += 1;
+    }
+    
+    // Check for uppercase letters
+    if (/[A-Z]/.test(password)) {
+      strength += 1;
+    }
+
+    // Check for lowercase letters
+    if (/[a-z]/.test(password)) {
+      strength += 1;
+    }
+
+    // Check for numbers
+    if (/\d/.test(password)) {
+      strength += 1;
+    }
+
+    // Check for special characters
+    if (/[$&+,:;=?@#|'<>.^*()%!-]/.test(password)) {
+      strength += 1;
+    }
+
+    var strengthText = "";
+    if (strength < 3) {
+      strengthText = "Weak";
+      document.getElementById('passwordStrength').className = "weak";
+    } else if (strength < 5) {
+      strengthText = "Medium";
+      document.getElementById('passwordStrength').className = "medium";
+    } else {
+      strengthText = "Strong";
+      document.getElementById('passwordStrength').className = "strong";
+    }
+
+    document.getElementById('passwordStrength').textContent = "Password Strength: " + strengthText;
+  });
+</script>
+</body>
+</html>

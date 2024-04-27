@@ -29,7 +29,7 @@
     font-size: 24px;
   }
 
-  input[type="text"], input[type="email"], input[type="password"] {
+  input[type="text"], input[type="email"], input[type="number"], input[type="password"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -52,22 +52,10 @@
     background-color: #007bff;
   }
 
-  .password-strength {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #555;
-  }
-
-  .weak {
+  .error-message {
     color: red;
-  }
-
-  .medium {
-    color: orange;
-  }
-
-  .strong {
-    color: green;
+    font-size: 14px;
+    margin-top: 5px;
   }
 </style>
 </head>
@@ -78,9 +66,10 @@
   <form id="signupForm" action="/signup" method="post">
     <input type="text" name="username" placeholder="Username" required>
     <input type="email" name="email" placeholder="Email Address" required>
+    <input type="number" name="ph_number" placeholder="Contact Number" required>
     <input type="password" id="password" name="password" placeholder="Password" required>
     <input type="password" id="confirmPassword" name="confirm_password" placeholder="Confirm Password" required>
-    <div class="password-strength" id="passwordStrength"></div>
+    <div id="passwordMismatchError" class="error-message" style="display: none;">Passwords do not match.</div>
     <input type="text" name="city" placeholder="City">
     <button type="submit" class="signup-button" id="signupButton" disabled>Sign Up</button>
   </form>
@@ -92,11 +81,14 @@
     var password = document.getElementById('password').value;
     var confirmPassword = document.getElementById('confirmPassword').value;
     var signupButton = document.getElementById('signupButton');
+    var passwordMismatchError = document.getElementById('passwordMismatchError');
 
     if (password === confirmPassword && password.length > 0) {
       signupButton.disabled = false;
+      passwordMismatchError.style.display = 'none';
     } else {
       signupButton.disabled = true;
+      passwordMismatchError.style.display = 'block';
     }
   }
 
@@ -107,51 +99,6 @@
 
   document.getElementById('confirmPassword').addEventListener('input', function() {
     checkPasswords();
-  });
-
-  // Password strength validation
-  document.getElementById('password').addEventListener('input', function() {
-    var password = document.getElementById('password').value;
-    var strength = 0;
-
-    // Check length
-    if (password.length >= 8) {
-      strength += 1;
-    }
-    
-    // Check for uppercase letters
-    if (/[A-Z]/.test(password)) {
-      strength += 1;
-    }
-
-    // Check for lowercase letters
-    if (/[a-z]/.test(password)) {
-      strength += 1;
-    }
-
-    // Check for numbers
-    if (/\d/.test(password)) {
-      strength += 1;
-    }
-
-    // Check for special characters
-    if (/[$&+,:;=?@#|'<>.^*()%!-]/.test(password)) {
-      strength += 1;
-    }
-
-    var strengthText = "";
-    if (strength < 3) {
-      strengthText = "Weak";
-      document.getElementById('passwordStrength').className = "weak";
-    } else if (strength < 5) {
-      strengthText = "Medium";
-      document.getElementById('passwordStrength').className = "medium";
-    } else {
-      strengthText = "Strong";
-      document.getElementById('passwordStrength').className = "strong";
-    }
-
-    document.getElementById('passwordStrength').textContent = "Password Strength: " + strengthText;
   });
 </script>
 </body>

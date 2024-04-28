@@ -47,10 +47,26 @@
             font-size: 1.2em;
             font-weight: bold;
         }
+
+        /* Style for the logout button */
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Logout button -->
+        <a href="/logout" class="logout-btn">Logout</a>
+        
         <div class="product">
             <img src="https://via.placeholder.com/400x300" alt="Product Image">
             <h2>Sample Product</h2>

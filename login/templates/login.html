@@ -82,6 +82,17 @@
             <input type="password" id="password" name="password" required>
             <input type="submit" value="Login">
         </form>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <ul class="flash-list">
+                    {% for category, message in messages %}
+                        <li class="flash-message {{ category }}">
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
         <div class="signup-link">
             Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a>.
         </div>
